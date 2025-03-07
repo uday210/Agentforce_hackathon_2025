@@ -1,0 +1,265 @@
+<template>
+    <div class="catalog-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <h1>Leak Fix Products</h1>
+                <p class="header-subtitle">Quality products for all your plumbing needs</p>
+            </div>
+            <div class="cart-icon" onclick={toggleCart}>
+                <div class="cart-wrapper">
+                    <lightning-icon icon-name="utility:cart" size="medium"></lightning-icon>
+                    <span class="cart-count">{cartItemCount}</span>
+                </div>
+                <span class="cart-total-preview">${cartTotal}</span>
+            </div>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="catalog-content">
+            <div class="catalog-header">
+                <h2 class="section-title">Featured Products</h2>
+                <div class="sort-filter">
+                    <lightning-combobox
+                        label="Sort By"
+                        value={sortValue}
+                        options={sortOptions}
+                        onchange={handleSort}
+                        class="sort-dropdown">
+                    </lightning-combobox>
+                </div>
+            </div>
+            <div class="product-grid">
+                <template if:true={hasProducts}>
+                    <template for:each={products.data} for:item="product">
+                        <div key={product.id} class={product.cardClass}>
+                            <div class="product-badge" if:true={product.isNew}>New</div>
+                            <div class="product-badge in-cart" if:true={product.inCart}>
+                                <lightning-icon icon-name="utility:cart" size="x-small" class="cart-badge-icon"></lightning-icon>
+                                In Cart
+                            </div>
+                            <div class="product-image">
+                                <img src={product.imageUrl} alt={product.name} />
+                                <div class="quick-add" onclick={handleQuickAdd} data-id={product.id}>
+                                    <lightning-icon icon-name="utility:add" size="small"></lightning-icon>
+                                    Quick Add
+                                </div>
+                            </div>
+                            <div class="product-details">
+                                <h2 class="product-title">{product.name}</h2>
+                                <p class="description">{product.description}</p>
+                                <div class="product-meta">
+                                    <div class="rating">
+                                        <lightning-icon icon-name="utility:favorite" size="x-small"></lightning-icon>
+                                        <span>4.5</span>
+                                    </div>
+                                    <div class="einstein-guide" onclick={handleInstallationGuide} data-id={product.id}>
+                                        <lightning-icon
+                                            icon-name="utility:einstein"
+                                            size="small"
+                                            class="einstein-icon">
+                                        </lightning-icon>
+                                        <span class="guide-text">Setup & Install Help</span>
+                                    </div>
+                                </div>
+                                <div class="price-row">
+                                    <div class="price-block">
+                                        <p class="price">${product.price}</p>
+                                    </div>
+                                    <div class="add-to-cart-controls">
+                                        <div class="quantity-input">
+                                            <lightning-input
+                                                type="number"
+                                                label="Quantity"
+                                                value={product.cartQuantity}
+                                                min="1"
+                                                data-id={product.id}
+                                                variant="label-hidden"
+                                                onchange={handleQuantityChange}>
+                                            </lightning-input>
+                                        </div>
+                                        <lightning-button-icon 
+                                            icon-name="utility:cart"
+                                            variant="brand"
+                                            size="medium"
+                                            class={product.cartButtonClass}
+                                            data-id={product.id}
+                                            onclick={handleAddToCart}
+                                            alternative-text="Add to Cart">
+                                        </lightning-button-icon>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+            </div>
+        </div>
+
+        <!-- Shopping Cart -->
+        <template if:true={showCart}>
+            <section role="dialog" class="cart-modal">
+                <div class="cart-content">
+                    <div class="cart-header">
+                        <div class="cart-header-content">
+                            <h2>Shopping Cart</h2>
+                            <lightning-button-icon
+                                icon-name="utility:close"
+                                variant="bare"
+                                onclick={toggleCart}
+                                size="small"
+                                class="close-button"
+                                title="Close cart"
+                                alternative-text="Close cart">
+                            </lightning-button-icon>
+                        </div>
+                    </div>
+                    <div class="cart-items-container">
+                        <template for:each={cartItems} for:item="item">
+                            <div key={item.id} class="cart-item">
+                                <img src={item.imageUrl} alt={item.name} />
+                                <div class="item-details">
+                                    <h3>{item.name}</h3>
+                                    <lightning-button-icon
+                                        icon-name="utility:delete"
+                                        variant="bare"
+                                        onclick={handleRemoveItem}
+                                        data-id={item.id}
+                                        class="delete-button"
+                                        title="Remove item"
+                                        alternative-text="Remove item">
+                                    </lightning-button-icon>
+                                    <div class="cart-item-controls">
+                                        <lightning-button-icon
+                                            icon-name="utility:minus"
+                                            variant="bare"
+                                            onclick={handleDecreaseQuantity}
+                                            data-id={item.id}
+                                            class="quantity-button"
+                                            title="Decrease quantity"
+                                            alternative-text="Decrease quantity">
+                                        </lightning-button-icon>
+                                        <span class="quantity">{item.quantity}</span>
+                                        <lightning-button-icon
+                                            icon-name="utility:add"
+                                            variant="bare"
+                                            onclick={handleIncreaseQuantity}
+                                            data-id={item.id}
+                                            class="quantity-button"
+                                            title="Increase quantity"
+                                            alternative-text="Increase quantity">
+                                        </lightning-button-icon>
+                                    </div>
+                                    <p>Price: ${item.formattedPrice}</p>
+                                    <p>Subtotal: ${item.formattedSubtotal}</p>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="cart-footer">
+                        <p class="total">Total: ${cartTotal}</p>
+                        <lightning-button 
+                            label="Checkout"
+                            variant="success"
+                            onclick={handleCheckout}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </section>
+        </template>
+
+        <!-- Installation Guide Modal -->
+        <template if:true={showInstallationModal}>
+            <section role="dialog" tabindex="-1" class="installation-modal">
+                <div class="modal-backdrop" onclick={closeInstallationModal}></div>
+                <div class="chat-modal">
+                    <div class="modal-header">
+                        <div class="chat-header-content">
+                            <lightning-icon icon-name="utility:einstein" size="small" class="einstein-chat-icon"></lightning-icon>
+                            <div>
+                                <h2>Installation Assistant</h2>
+                                <p class="chat-subtitle">I'm here to help with your installation</p>
+                            </div>
+                        </div>
+                        <lightning-button-icon
+                            icon-name="utility:close"
+                            variant="bare"
+                            onclick={closeInstallationModal}
+                            class="close-button"
+                            alternative-text="Close modal">
+                        </lightning-button-icon>
+                    </div>
+                    <div class="selected-product">
+                        <template if:true={selectedProduct}>
+                            <div class="product-info">
+                                <img src={selectedProduct.imageUrl} alt={selectedProduct.name} />
+                                <div class="product-info-details">
+                                    <h3>{selectedProduct.name}</h3>
+                                    <p class="product-info-description">{selectedProduct.description}</p>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="chat-body">
+                        <div class="flow-container">
+                            <div class="flow-header">
+                                <lightning-icon icon-name="utility:setup" size="small"></lightning-icon>
+                                <h3>Installation Guide</h3>
+                                <div class="header-actions">
+                                    <div class="download-handle" onclick={handleDownload} title="Download Installation Guide">
+                                        <lightning-icon 
+                                            icon-name="utility:download"
+                                            size="x-small"
+                                            class="download-icon">
+                                        </lightning-icon>
+                                    </div>
+                                    <div class="resize-handle" onclick={toggleGuideSize} title="Resize Guide">
+                                        <lightning-icon 
+                                            icon-name={guideResizeIcon} 
+                                            size="x-small"
+                                            class="resize-icon">
+                                        </lightning-icon>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class={flowContentClass}>
+                                <lightning-flow
+                                    flow-api-name="Product_Installation_Details_Flow"
+                                    flow-input-variables={flowInputVariables}
+                                    onstatuschange={handleFlowStatusChange}>
+                                </lightning-flow>
+                            </div>
+                        </div>
+                        <div class="chat-messages" lwc:dom="manual">
+                            <!-- Chat messages will be added here dynamically -->
+                        </div>
+                    </div>
+                    <div class="chat-input-section">
+                        <lightning-input
+                            type="text"
+                            label="Ask a question"
+                            variant="label-hidden"
+                            placeholder="Type your question here..."
+                            value={userQuestion}
+                            onchange={handleQuestionChange}
+                            class="chat-input"
+                            disabled={isLoading}
+                            onkeyup={handleKeyUp}>
+                        </lightning-input>
+                        <lightning-button-icon
+                            icon-name="utility:send"
+                            variant="brand"
+                            onclick={handleAskQuestion}
+                            class="send-button"
+                            disabled={isButtonDisabled}
+                            alternative-text="Send question">
+                        </lightning-button-icon>
+                    </div>
+                    <div if:true={isLoading} class="loading-spinner">
+                        <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                    </div>
+                </div>
+            </section>
+        </template>
+    </div>
+</template> 

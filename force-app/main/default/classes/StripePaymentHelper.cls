@@ -18,7 +18,11 @@ public class StripePaymentHelper {
     }
     
     public static String createPaymentLinkForWorkOrder(String woId) {
-        
+        //get the work order status
+        Workorder workOrder = [SELECT Id,Status,Payment_Link__c FROM WorkOrder WHERE Id=:woId];
+        if(workOrder.status == 'Payment Requested'){
+            return workOrder.Payment_Link__c;
+        }
         // Retrieve related Work Order Items (Products)
         List<WorkOrderLineItem> workOrderItems = [SELECT Id, TotalPrice,Quantity , Product2.Stripe_Price_ID__c FROM WorkOrderLineItem WHERE WorkOrderId = :woId];
         
@@ -74,6 +78,7 @@ public class StripePaymentHelper {
             WorkOrder wo = new WorkOrder(Id=woId);
            	wo.Payment_Link__c = paymentLink; // Assuming you have a custom field for Payment Link
             wo.Payment_Link_ID__c = paymentLinkId; // Assuming you have a custom field for Payment Link ID
+            wo.status = 'Payment Requested';
             update wo;
             
           
