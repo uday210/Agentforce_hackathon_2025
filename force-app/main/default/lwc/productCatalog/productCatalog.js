@@ -311,4 +311,31 @@ export default class ProductCatalog extends LightningElement {
         // Scroll to bottom
         messageDiv.scrollIntoView({ behavior: 'smooth' });
     }
+    
+    connectedCallback() {
+        this.handleScroll = this.handleScroll.bind(this);
+        window.addEventListener('scroll', this.handleScroll);
+    }
+    
+    renderedCallback() {
+        // Detect if we're in Salesforce or Community
+        const isSalesforce = document.querySelector('.desktop.container');
+        const header = this.template.querySelector('.header');
+        if (isSalesforce && header) {
+            this.template.querySelector('.header').classList.add('salesforce-header');
+        }
+    }
+    
+    disconnectedCallback() {
+        window.removeEventListener('scroll', this.handleScroll);
+    }
+    
+    handleScroll() {
+        const header = this.template.querySelector('.header');
+        if (window.scrollY > 10) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    }
 } 

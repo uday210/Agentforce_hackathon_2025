@@ -2,28 +2,76 @@
     padding: 2rem;
     background: linear-gradient(to bottom, #f8f9fa, #ffffff);
     min-height: 100vh;
+    position: relative;
 }
 
 .header {
+    position: sticky;
+    top: 0;
+    z-index: 5;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem 2rem;
     background: white;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    border-radius: 12px;
-    margin-bottom: 2rem;
+    margin: -2rem -2rem 2rem -2rem;
+    transition: all 0.3s ease;
+}
+
+.salesforce-header {
+    top: 6rem !important;  /* Override for Salesforce */
+}
+
+.header.scrolled {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+
+.header-content {
+    flex: 1;
+}
+
+.header-titles {
+    margin-bottom: 1rem;
 }
 
 .header-content h1 {
-    font-size: 2rem;
+    font-size: 2.25rem;
     color: #2c3e50;
     margin-bottom: 0.5rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #2c3e50, #3498db);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .header-subtitle {
-    color: #6c757d;
-    font-size: 1rem;
+    color: #64748b;
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.header-features {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #475569;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.feature lightning-icon {
+    --sds-c-icon-color-foreground: #3b82f6;
+    --sds-c-icon-color-foreground-default: #3b82f6;
 }
 
 .cart-icon {
@@ -33,9 +81,11 @@
     align-items: center;
     gap: 1rem;
     padding: 0.75rem 1.5rem;
-    background: #f8f9fa;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
     border-radius: 8px;
     transition: all 0.2s ease;
+    border: 1px solid rgba(226, 232, 240, 0.8);
 }
 
 .cart-icon:hover {
@@ -63,24 +113,19 @@
     color: #2c3e50;
 }
 
-.catalog-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-
 .section-title {
     font-size: 1.5rem;
     color: #2c3e50;
     font-weight: 600;
+    margin: 0;
 }
 
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 2rem;
-    padding: 2rem 0;
+    padding: 2rem;
+    margin-top: 1rem;
 }
 
 .product-card {
@@ -658,7 +703,7 @@
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1rem;
 }
 
 .download-handle {
@@ -675,4 +720,32 @@
 
 .download-icon {
     --sds-c-icon-color-foreground-default: #2563eb;
+}
+
+.sort-filter {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sort-dropdown {
+    min-width: 180px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    border-radius: 8px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.sort-dropdown::part(input) {
+    border: none;
+    border-radius: 8px;
+    color: #475569;
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+}
+
+.sort-dropdown::part(input):focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 1px #3b82f6;
 } 

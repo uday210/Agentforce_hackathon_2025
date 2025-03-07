@@ -3,32 +3,47 @@
         <!-- Header -->
         <div class="header">
             <div class="header-content">
-                <h1>Leak Fix Products</h1>
-                <p class="header-subtitle">Quality products for all your plumbing needs</p>
-            </div>
-            <div class="cart-icon" onclick={toggleCart}>
-                <div class="cart-wrapper">
-                    <lightning-icon icon-name="utility:cart" size="medium"></lightning-icon>
-                    <span class="cart-count">{cartItemCount}</span>
+                <div class="header-titles">
+                    <h1>Smart Leak Solutions</h1>
+                    <p class="header-subtitle">IoT Devices • Software • Detection Kits • Smart Sensors</p>
                 </div>
-                <span class="cart-total-preview">${cartTotal}</span>
+                <div class="header-features">
+                    <div class="feature">
+                        <lightning-icon icon-name="utility:connected_apps" size="small"></lightning-icon>
+                        <span>Smart IoT Integration</span>
+                    </div>
+                    <div class="feature">
+                        <lightning-icon icon-name="utility:notification" size="small"></lightning-icon>
+                        <span>Real-time Alerts</span>
+                    </div>
+                    <div class="feature">
+                        <lightning-icon icon-name="utility:shield" size="small"></lightning-icon>
+                        <span>24/7 Protection</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <lightning-combobox
+                    label="Sort By"
+                    value={sortValue}
+                    options={sortOptions}
+                    onchange={handleSort}
+                    variant="label-hidden"
+                    class="sort-dropdown"
+                    placeholder="Sort By">
+                </lightning-combobox>
+                <div class="cart-icon" onclick={toggleCart}>
+                    <div class="cart-wrapper">
+                        <lightning-icon icon-name="utility:cart" size="medium"></lightning-icon>
+                        <span class="cart-count">{cartItemCount}</span>
+                    </div>
+                    <span class="cart-total-preview">${cartTotal}</span>
+                </div>
             </div>
         </div>
 
         <!-- Product Grid -->
         <div class="catalog-content">
-            <div class="catalog-header">
-                <h2 class="section-title">Featured Products</h2>
-                <div class="sort-filter">
-                    <lightning-combobox
-                        label="Sort By"
-                        value={sortValue}
-                        options={sortOptions}
-                        onchange={handleSort}
-                        class="sort-dropdown">
-                    </lightning-combobox>
-                </div>
-            </div>
             <div class="product-grid">
                 <template if:true={hasProducts}>
                     <template for:each={products.data} for:item="product">
