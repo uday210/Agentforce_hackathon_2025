@@ -1,0 +1,14 @@
+{
+  "required" : [ "WorkOrderId" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "WorkOrderId" : {
+      "title" : "WorkOrderId",
+      "description" : "This is the record Id of work order which is identified as part of 'Get WorkOrder Details' action",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

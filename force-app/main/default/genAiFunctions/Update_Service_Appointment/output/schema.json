@@ -1,0 +1,15 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "SAUpdateStatus" : {
+      "title" : "SAUpdateStatus",
+      "description" : "based on the Service appointment status it may or may not be possible to reschedule it , that status of action details are present in this variable based on this we need to give response to the user",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

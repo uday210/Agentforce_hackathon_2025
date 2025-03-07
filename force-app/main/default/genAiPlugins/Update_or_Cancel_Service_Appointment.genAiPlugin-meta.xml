@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlugin xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <canEscalate>false</canEscalate>
+    <description>This topic is used to identify the Service Appointment by the work order reference number and Update the schedule time or totally cancel it</description>
+    <developerName>Update_or_Cancel_Service_Appointment</developerName>
+    <genAiFunctions>
+        <functionName>Get_WorkOrder_Details</functionName>
+    </genAiFunctions>
+    <genAiFunctions>
+        <functionName>Cancel_Service_Appointment</functionName>
+    </genAiFunctions>
+    <genAiFunctions>
+        <functionName>Update_Service_Appointment</functionName>
+    </genAiFunctions>
+    <genAiPluginInstructions>
+        <description>Every time check for the Work order reference number it starts with &apos;WO-&apos; , ask it from the user to get the work order details</description>
+        <developerName>instruction_everytimec0</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_everytimec0</masterLabel>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Every time when &apos;WO-&apos; id is shared by user call a action called 
+&apos;Get WorkOrder Details&apos;, then based on user request either call &apos;Cancel Service Appointment&apos; or &apos;Update Service Appointment&apos;</description>
+        <developerName>instruction_everytimew1</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_everytimew1</masterLabel>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Every time before executing action &apos;Update Service Appointment&apos; make sure to get new Date Time from user and it should in future only and don&apos;t specify any specific format</description>
+        <developerName>instruction_everytimeb2</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_everytimeb2</masterLabel>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>if &apos;Get WorkOrder Details&apos; action dont returns anything ask user to cross check the reference number</description>
+        <developerName>instruction_ifgetworko3</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_ifgetworko3</masterLabel>
+    </genAiPluginInstructions>
+    <language>en_US</language>
+    <masterLabel>Update or Cancel Service Appointment</masterLabel>
+    <pluginType>Topic</pluginType>
+    <scope>When work order ref no is shared by user based on the user request its going to update the service appoint ment or cancel the service appointment</scope>
+</GenAiPlugin>

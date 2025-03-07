@@ -1,0 +1,21 @@
+{
+  "required" : [ "NewScheduleDateTime", "WorkOrderId" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "NewScheduleDateTime" : {
+      "title" : "NewScheduleDateTime",
+      "description" : "This is the new appointment date time requested by user",
+      "lightning:type" : "lightning__dateTimeStringType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    },
+    "WorkOrderId" : {
+      "title" : "WorkOrderId",
+      "description" : "This is the related work order id which is identified as part of 'Get WorkOrder Details' by using work order reference number",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

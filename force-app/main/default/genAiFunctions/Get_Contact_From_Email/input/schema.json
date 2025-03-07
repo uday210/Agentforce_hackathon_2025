@@ -1,0 +1,14 @@
+{
+  "required" : [ "UserEmail" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "UserEmail" : {
+      "title" : "UserEmail",
+      "description" : "this variable holds the email id related to contact record",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiFunction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This action is invoked to get the contact when email id is passed</description>
+    <invocationTarget>Get_Contact_From_Email</invocationTarget>
+    <invocationTargetType>flow</invocationTargetType>
+    <isConfirmationRequired>false</isConfirmationRequired>
+    <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+    <masterLabel>Get Contact From Email</masterLabel>
+    <progressIndicatorMessage>Getting user contact</progressIndicatorMessage>
+</GenAiFunction>

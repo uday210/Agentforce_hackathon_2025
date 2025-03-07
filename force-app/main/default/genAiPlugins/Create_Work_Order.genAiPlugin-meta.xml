@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlugin xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <canEscalate>false</canEscalate>
+    <description>this is used for creating a work order if there is a leak detected</description>
+    <developerName>Create_Work_Order</developerName>
+    <genAiFunctions>
+        <functionName>SvcCopilotTmpl__CreateCase</functionName>
+    </genAiFunctions>
+    <genAiFunctions>
+        <functionName>SvcCopilotTmpl__GetCaseByCaseNumber</functionName>
+    </genAiFunctions>
+    <genAiFunctions>
+        <functionName>Get_Contact_From_Email</functionName>
+    </genAiFunctions>
+    <genAiFunctions>
+        <functionName>Create_WorkOrder_and_Service_Appointment</functionName>
+    </genAiFunctions>
+    <genAiPluginInstructions>
+        <description>before creating the work order make sure a case is created via the &apos;Create Case&apos; action and user account is identified by using &apos;Find Account&apos;</description>
+        <developerName>instruction_beforecrea0</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_beforecrea0</masterLabel>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Every time when &apos;WO-&apos; id is shared by user call a action called 
+&apos;Get WorkOrder Details&apos;, then based on user request either call &apos;Cancel Service Appointment&apos; or &apos;Update Service Appointment&apos;</description>
+        <developerName>instruction_everytimew1</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_everytimew1</masterLabel>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>if &apos;Get WorkOrder Details&apos; result is empty ask them to cross-check the work order reference number</description>
+        <developerName>instruction_ifgetworko2</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_ifgetworko2</masterLabel>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>and every time creation of work order and service appointment share the details with customers for reference and make sure to highlight the field &apos;Work_Order_Ref_No__c&apos; as its going to use in different actions to track the Work Order Status status</description>
+        <developerName>instruction_andeveryti3</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_andeveryti3</masterLabel>
+    </genAiPluginInstructions>
+    <language>en_US</language>
+    <masterLabel>Create Work Order</masterLabel>
+    <pluginType>Topic</pluginType>
+    <scope>When the user account is identified and a case is created this should create a work order by calling &apos;Create WorkOrder&apos; action</scope>
+</GenAiPlugin>

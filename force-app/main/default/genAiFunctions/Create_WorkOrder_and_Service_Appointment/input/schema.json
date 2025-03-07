@@ -1,0 +1,28 @@
+{
+  "required" : [ "ContactId", "NewCaseId", "ScheduleDateTime" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "ContactId" : {
+      "title" : "ContactId",
+      "description" : "This is the Contact id which is identified by email id passed by user",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "NewCaseId" : {
+      "title" : "NewCaseId",
+      "description" : "This is the case record id which is created by agent when users specifies details about a leak",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "ScheduleDateTime" : {
+      "title" : "ScheduleDateTime",
+      "description" : "Ask the date time from the user to schedule service appointment , this supposed to be in future ",
+      "lightning:type" : "lightning__dateTimeStringType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

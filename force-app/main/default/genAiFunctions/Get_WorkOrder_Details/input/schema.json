@@ -1,0 +1,14 @@
+{
+  "required" : [ "WorkOrderReferenceNumber" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "WorkOrderReferenceNumber" : {
+      "title" : "WorkOrderReferenceNumber",
+      "description" : "this is the reference number shared by user which starts with 'WO-'",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : true
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

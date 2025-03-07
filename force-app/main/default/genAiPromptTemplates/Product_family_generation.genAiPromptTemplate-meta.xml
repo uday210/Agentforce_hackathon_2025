@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>WppKPoi6wlSfMD/dZFqI80W5IA/N1ssCZ8g3XR/vigY=_1</activeVersionIdentifier>
+    <description>this template is used to identify the product family</description>
+    <developerName>Product_family_generation</developerName>
+    <masterLabel>Product family generation</masterLabel>
+    <templateVersions>
+        <content>as a technical writer, you have to check these details  of a product :
+{!$RecordSnapshot:ProductData.Snapshot}
+
+and analyze and give a decision of this product family , and it  has to be one of these 2 values Product OR Service
+
+
+don&apos;t include any extra information other than these 2 values Product OR Service
+
+
+
+</content>
+        <inputs>
+            <apiName>ProductData</apiName>
+            <definition>SOBJECT://Product2</definition>
+            <masterLabel>ProductData</masterLabel>
+            <referenceName>Input:ProductData</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4Turbo</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:ProductData.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:ProductData</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WppKPoi6wlSfMD/dZFqI80W5IA/N1ssCZ8g3XR/vigY=_1</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

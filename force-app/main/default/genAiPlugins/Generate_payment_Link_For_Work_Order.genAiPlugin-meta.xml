@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlugin xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <canEscalate>false</canEscalate>
+    <description>This is only used for generating the payment link when work order is identified</description>
+    <developerName>Generate_payment_Link_For_Work_Order</developerName>
+    <genAiFunctions>
+        <functionName>Create_Payment_Link</functionName>
+    </genAiFunctions>
+    <genAiFunctions>
+        <functionName>Get_WorkOrder_Details</functionName>
+    </genAiFunctions>
+    <genAiPluginInstructions>
+        <description>if work order id is not present ask the user to share the workorder reference number starts with &apos;WO-&apos; and use &apos;Get WorkOrder Details&apos; action to get the work Order details</description>
+        <developerName>instruction_ifworkorde0</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_ifworkorde0</masterLabel>
+    </genAiPluginInstructions>
+    <genAiPluginInstructions>
+        <description>Pass the work order salesforce record Id to &apos;Create Payment Link&apos; action if the return response contains a URL always display it as a hyperlink or a button</description>
+        <developerName>instruction_passthewor1</developerName>
+        <language xsi:nil="true"/>
+        <masterLabel>instruction_passthewor1</masterLabel>
+    </genAiPluginInstructions>
+    <language>en_US</language>
+    <masterLabel>Generate payment Link For Work Order</masterLabel>
+    <pluginType>Topic</pluginType>
+    <scope>Only invoke this topic when there si any work order identified</scope>
+</GenAiPlugin>
