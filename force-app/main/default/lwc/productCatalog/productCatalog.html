@@ -55,6 +55,16 @@
                             </div>
                             <div class="product-image">
                                 <img src={product.imageUrl} alt={product.name} />
+                                <div class="image-overlay">
+                                    <lightning-button-icon
+                                        icon-name="utility:preview"
+                                        variant="border-filled"
+                                        onclick={handleQuickView}
+                                        data-id={product.id}
+                                        class="preview-button"
+                                        title="Quick View">
+                                    </lightning-button-icon>
+                                </div>
                                 <div class="quick-add" onclick={handleQuickAdd} data-id={product.id}>
                                     <lightning-icon icon-name="utility:add" size="small"></lightning-icon>
                                     Quick Add
@@ -62,11 +72,27 @@
                             </div>
                             <div class="product-details">
                                 <h2 class="product-title">{product.name}</h2>
+                                <div class="product-tags">
+                                    <template for:each={product.tags} for:item="tag">
+                                        <span key={tag} class="product-tag">
+                                            {tag}
+                                        </span>
+                                    </template>
+                                </div>
                                 <p class="description">{product.description}</p>
                                 <div class="product-meta">
                                     <div class="rating">
                                         <lightning-icon icon-name="utility:favorite" size="x-small"></lightning-icon>
                                         <span>4.5</span>
+                                    </div>
+                                    <div class="share-product">
+                                        <lightning-button-icon-stateful
+                                            icon-name="utility:share"
+                                            onclick={handleShareProduct}
+                                            data-id={product.id}
+                                            class="share-button"
+                                            title="Share Product">
+                                        </lightning-button-icon-stateful>
                                     </div>
                                     <div class="einstein-guide" onclick={handleInstallationGuide} data-id={product.id}>
                                         <lightning-icon
@@ -163,6 +189,14 @@
                                             class="quantity-button"
                                             title="Increase quantity"
                                             alternative-text="Increase quantity">
+                                        </lightning-button-icon>
+                                        <lightning-button-icon
+                                            icon-name="utility:save"
+                                            variant="bare"
+                                            onclick={handleSaveForLater}
+                                            data-id={item.id}
+                                            class="save-later-button"
+                                            title="Save for Later">
                                         </lightning-button-icon>
                                     </div>
                                     <p>Price: ${item.formattedPrice}</p>
@@ -273,6 +307,208 @@
                     <div if:true={isLoading} class="loading-spinner">
                         <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
                     </div>
+                </div>
+            </section>
+        </template>
+
+        <!-- Quick Preview Modal -->
+        <template if:true={showPreviewModal}>
+            <section role="dialog" class="preview-modal">
+                <div class="modal-backdrop" onclick={closePreviewModal}></div>
+                <div class="preview-content">
+                    <div class="preview-header">
+                        <h2>Product Preview</h2>
+                        <lightning-button-icon
+                            icon-name="utility:close"
+                            variant="bare"
+                            onclick={closePreviewModal}
+                            class="close-button">
+                        </lightning-button-icon>
+                    </div>
+                    <div class="preview-body">
+                        <div class="preview-image">
+                            <img src={previewProduct.imageUrl} alt={previewProduct.name} />
+                        </div>
+                        <div class="preview-details">
+                            <h3>{previewProduct.name}</h3>
+                            <p class="preview-description">{previewProduct.description}</p>
+                            <div class="preview-price">${previewProduct.price}</div>
+                            <lightning-button 
+                                label="Add to Cart" 
+                                variant="brand" 
+                                onclick={handlePreviewAddToCart}
+                                class="preview-add-button">
+                            </lightning-button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </template>
+
+        <!-- Address Modal -->
+        <template if:true={showAddressModal}>
+            <section role="dialog" class="checkout-modal">
+                <div class="modal-backdrop" onclick={closeAddressModal}></div>
+                <div class="checkout-content">
+                    <div class="modal-header">
+                        <h2>Checkout</h2>
+                        <lightning-button-icon
+                            icon-name="utility:close"
+                            variant="bare"
+                            onclick={closeAddressModal}
+                            class="close-button">
+                        </lightning-button-icon>
+                    </div>
+                    <div class="checkout-progress">
+                        <div class="progress-step active">
+                            <div class="step-number">1</div>
+                            <div class="step-label">Contact</div>
+                        </div>
+                        <div class="progress-line"></div>
+                        <div class="progress-step">
+                            <div class="step-number">2</div>
+                            <div class="step-label">Address</div>
+                        </div>
+                        <div class="progress-line"></div>
+                        <div class="progress-step">
+                            <div class="step-number">3</div>
+                            <div class="step-label">Payment</div>
+                        </div>
+                    </div>
+                    
+                    <div class="checkout-summary">
+                        <div class="summary-header">
+                            <h3>Order Summary</h3>
+                            <span class="item-count">{cartItemCount} items</span>
+                        </div>
+                        <div class="summary-items">
+                            <template for:each={cartItems} for:item="item">
+                                <div key={item.id} class="summary-item">
+                                    <img src={item.imageUrl} alt={item.name} />
+                                    <div class="item-details">
+                                        <h4>{item.name}</h4>
+                                        <p>Qty: {item.quantity}</p>
+                                    </div>
+                                    <div class="item-price">${item.formattedSubtotal}</div>
+                                </div>
+                            </template>
+                        </div>
+                        <div class="summary-total">
+                            <div class="total-row">
+                                <span>Subtotal</span>
+                                <span>${cartTotal}</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Shipping</span>
+                                <span>Free</span>
+                            </div>
+                            <div class="total-row final">
+                                <span>Total</span>
+                                <span>${cartTotal}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <lightning-record-edit-form
+                        object-api-name="Cart__c"
+                        onsubmit={handleAddressSubmit}>
+                        <div class="checkout-form">
+                            <div class="form-progress-content" data-step="1">
+                                <div class="form-section">
+                                    <h3>Contact Information</h3>
+                                    <div class="input-group">
+                                        <lightning-input-field field-name="Contact_Email__c"></lightning-input-field>
+                                        <lightning-input-field field-name="Contact_Phone__c"></lightning-input-field>
+                                    </div>
+                                    <div class="form-navigation">
+                                        <lightning-button 
+                                            label="Continue to Address" 
+                                            variant="brand"
+                                            onclick={nextStep}>
+                                        </lightning-button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-progress-content hidden" data-step="2">
+                                <div class="form-section">
+                                    <h3>Billing Address</h3>
+                                    <div class="input-group">
+                                        <lightning-input-field field-name="Billing_Street__c"></lightning-input-field>
+                                        <div class="input-row">
+                                            <lightning-input-field field-name="Billing_City__c"></lightning-input-field>
+                                            <lightning-input-field field-name="Billing_State__c"></lightning-input-field>
+                                        </div>
+                                        <div class="input-row">
+                                            <lightning-input-field field-name="Billing_PostalCode__c"></lightning-input-field>
+                                            <lightning-input-field field-name="Billing_Country__c"></lightning-input-field>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-section">
+                                    <div class="shipping-header">
+                                        <h3>Shipping Address</h3>
+                                        <lightning-button 
+                                            label="Copy from Billing" 
+                                            variant="base" 
+                                            onclick={copyBillingToShipping}
+                                            class="copy-address-button">
+                                        </lightning-button>
+                                    </div>
+                                    <div class="input-group">
+                                        <lightning-input-field field-name="Shipping_Street__c"></lightning-input-field>
+                                        <div class="input-row">
+                                            <lightning-input-field field-name="Shipping_City__c"></lightning-input-field>
+                                            <lightning-input-field field-name="Shipping_State__c"></lightning-input-field>
+                                        </div>
+                                        <div class="input-row">
+                                            <lightning-input-field field-name="Shipping_PostalCode__c"></lightning-input-field>
+                                            <lightning-input-field field-name="Shipping_Country__c"></lightning-input-field>
+                                        </div>
+                                    </div>
+                                    <div class="form-navigation">
+                                        <lightning-button 
+                                            label="Back" 
+                                            variant="neutral"
+                                            onclick={previousStep}
+                                            class="back-button">
+                                        </lightning-button>
+                                        <lightning-button 
+                                            label="Continue to Payment" 
+                                            variant="brand"
+                                            onclick={nextStep}>
+                                        </lightning-button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-progress-content hidden" data-step="3">
+                                <div class="form-section">
+                                    <h3>Payment Method</h3>
+                                    <div class="payment-options">
+                                        <div class="payment-option selected">
+                                            <lightning-icon icon-name="utility:creditcard" size="small"></lightning-icon>
+                                            <span>Credit Card (Stripe)</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-navigation">
+                                        <lightning-button 
+                                            label="Back" 
+                                            variant="neutral"
+                                            onclick={previousStep}
+                                            class="back-button">
+                                        </lightning-button>
+                                        <lightning-button 
+                                            label="Complete Purchase" 
+                                            variant="brand" 
+                                            type="submit">
+                                        </lightning-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </lightning-record-edit-form>
                 </div>
             </section>
         </template>

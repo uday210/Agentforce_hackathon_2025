@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cart__c</fullName>
+    <label>Cart</label>
+    <type>MasterDetail</type>
+    <relationshipName>Cart_Items</relationshipName>
+    <relationshipLabel>Cart Items</relationshipLabel>
+    <referenceTo>Cart__c</referenceTo>
+</CustomField> 

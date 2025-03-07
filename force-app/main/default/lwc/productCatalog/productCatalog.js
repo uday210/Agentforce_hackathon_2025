@@ -1,8 +1,11 @@
 import { LightningElement, wire, track } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getProducts from '@salesforce/apex/ProductCatalogController.getProducts';
 import { publish, MessageContext } from 'lightning/messageService';
 import CART_UPDATED_CHANNEL from '@salesforce/messageChannel/CartUpdated__c';
 import invokePrompt from '@salesforce/apex/PromptInvokeService.invokePrompt';
+import createCart from '@salesforce/apex/CartController.createCart';
+import generatePaymentLink from '@salesforce/apex/CartStripePaymentHelper.generatePaymentLink';
 
 export default class ProductCatalog extends LightningElement {
     @wire(MessageContext) messageContext;
@@ -185,6 +188,7 @@ export default class ProductCatalog extends LightningElement {
     @track installationInfo = '';
     @track isLoading = false;
     @track isGuideExpanded = true;
+    @track currentStep = 1;
     
     get guideResizeIcon() {
         return this.isGuideExpanded ? 'utility:minimize_window' : 'utility:expand';
@@ -336,6 +340,187 @@ export default class ProductCatalog extends LightningElement {
             header.classList.add('scrolled');
         } else {
             header.classList.remove('scrolled');
+        }
+    }
+    
+    @track showPreviewModal = false;
+    @track previewProduct;
+    @track showAddressModal = false;
+    
+    handleQuickView(event) {
+        const productId = event.currentTarget.dataset.id;
+        const product = this.products.data.find(p => p.id === productId);
+        this.previewProduct = product;
+        this.showPreviewModal = true;
+    }
+    
+    closePreviewModal() {
+        this.showPreviewModal = false;
+        this.previewProduct = null;
+    }
+    
+    handlePreviewAddToCart() {
+        this.handleAddToCart({ currentTarget: { dataset: { id: this.previewProduct.id } } });
+        this.closePreviewModal();
+    }
+    
+    handleShareProduct(event) {
+        const productId = event.currentTarget.dataset.id;
+        const product = this.products.data.find(p => p.id === productId);
+        // Share product logic (could use navigator.share if available)
+        if (navigator.share) {
+            navigator.share({
+                title: product.name,
+                text: product.description,
+                url: window.location.href
+            });
+        }
+    }
+    
+    handleSaveForLater(event) {
+        const productId = event.currentTarget.dataset.id;
+        // Save for later logic
+    }
+    
+    handleCheckout() {
+        console.log('Checkout clicked');
+        this.showAddressModal = true;
+    }
+    
+    closeAddressModal() {
+        this.showAddressModal = false;
+    }
+    
+    copyBillingToShipping() {
+        const form = this.template.querySelector('lightning-record-edit-form');
+        const billingStreet = form.querySelector('[field-name="Billing_Street__c"]').value || '';
+        const billingCity = form.querySelector('[field-name="Billing_City__c"]').value || '';
+        const billingState = form.querySelector('[field-name="Billing_State__c"]').value || '';
+        const billingPostal = form.querySelector('[field-name="Billing_PostalCode__c"]').value || '';
+        const billingCountry = form.querySelector('[field-name="Billing_Country__c"]').value || '';
+
+        // Get all shipping fields
+        const shippingStreet = form.querySelector('[field-name="Shipping_Street__c"]');
+        const shippingCity = form.querySelector('[field-name="Shipping_City__c"]');
+        const shippingState = form.querySelector('[field-name="Shipping_State__c"]');
+        const shippingPostal = form.querySelector('[field-name="Shipping_PostalCode__c"]');
+        const shippingCountry = form.querySelector('[field-name="Shipping_Country__c"]');
+        
+        // Dispatch change events to update the fields
+        if (shippingStreet) {
+            shippingStreet.value = billingStreet;
+            shippingStreet.dispatchEvent(new CustomEvent('change'));
+        }
+        if (shippingCity) {
+            shippingCity.value = billingCity;
+            shippingCity.dispatchEvent(new CustomEvent('change'));
+        }
+        if (shippingState) {
+            shippingState.value = billingState;
+            shippingState.dispatchEvent(new CustomEvent('change'));
+        }
+        if (shippingPostal) {
+            shippingPostal.value = billingPostal;
+            shippingPostal.dispatchEvent(new CustomEvent('change'));
+        }
+        if (shippingCountry) {
+            shippingCountry.value = billingCountry;
+            shippingCountry.dispatchEvent(new CustomEvent('change'));
+        }
+    }
+    
+    async handleAddressSubmit(event) {
+        console.log('Address submit', event.detail.fields);
+        event.preventDefault();
+        const fields = event.detail.fields;
+        
+        // Create Cart record
+        const cartData = {
+            Status__c: 'Draft',
+            Total_Amount__c: String(this.cartTotal), // Convert to string for proper handling
+            Billing_Street__c: fields.Billing_Street__c,
+            Billing_City__c: fields.Billing_City__c,
+            Billing_State__c: fields.Billing_State__c,
+            Billing_PostalCode__c: fields.Billing_PostalCode__c,
+            Billing_Country__c: fields.Billing_Country__c,
+            Shipping_Street__c: fields.Shipping_Street__c,
+            Shipping_City__c: fields.Shipping_City__c,
+            Shipping_State__c: fields.Shipping_State__c,
+            Shipping_PostalCode__c: fields.Shipping_PostalCode__c,
+            Shipping_Country__c: fields.Shipping_Country__c,
+            Contact_Email__c: fields.Contact_Email__c,
+            Contact_Phone__c: fields.Contact_Phone__c
+        };
+
+        try {
+            // Create cart and cart items
+            const result = await createCart({ 
+                cartData: cartData,
+                cartItems: this.cartItems.map(item => ({
+                    id: item.id,
+                    quantity: item.quantity,
+                    price: item.price
+                }))
+            });
+            
+            console.log('Cart created:', result);
+            
+            // Generate payment link
+            const paymentLink = await generatePaymentLink({ cartId: result.cartId });
+            
+            console.log('Payment link generated:', paymentLink);
+            
+            // Redirect to payment link
+            window.location.href = paymentLink;
+            
+        } catch (error) {
+            console.error('Error in checkout:', error);
+            this.showToast('Error', error.message, 'error');
+        }
+    }
+    
+    showToast(title, message, variant) {
+        const evt = new ShowToastEvent({
+            title: title,
+            message: message,
+            variant: variant,
+        });
+        this.dispatchEvent(evt);
+    }
+    
+    nextStep() {
+        if (this.currentStep < 3) {
+            this.template.querySelector(`[data-step="${this.currentStep}"]`).classList.add('hidden');
+            this.currentStep += 1;
+            this.template.querySelector(`[data-step="${this.currentStep}"]`).classList.remove('hidden');
+            
+            // Update progress indicator
+            const steps = this.template.querySelectorAll('.progress-step');
+            steps.forEach((step, index) => {
+                if (index + 1 <= this.currentStep) {
+                    step.classList.add('active');
+                } else {
+                    step.classList.remove('active');
+                }
+            });
+        }
+    }
+    
+    previousStep() {
+        if (this.currentStep > 1) {
+            this.template.querySelector(`[data-step="${this.currentStep}"]`).classList.add('hidden');
+            this.currentStep -= 1;
+            this.template.querySelector(`[data-step="${this.currentStep}"]`).classList.remove('hidden');
+            
+            // Update progress indicator
+            const steps = this.template.querySelectorAll('.progress-step');
+            steps.forEach((step, index) => {
+                if (index + 1 <= this.currentStep) {
+                    step.classList.add('active');
+                } else {
+                    step.classList.remove('active');
+                }
+            });
         }
     }
 } 
