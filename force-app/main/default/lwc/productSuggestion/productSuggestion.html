@@ -1,66 +1,84 @@
 <template>
     <div class="suggestion-container">
         <div class="suggestion-header">
-            <lightning-icon icon-name="utility:einstein" size="small"></lightning-icon>
-            <h2>AI Recommended Products</h2>
+            <div class="header-left">
+                <lightning-icon icon-name="utility:einstein" size="small"></lightning-icon>
+                <h2>AI Recommended Products</h2>
+            </div>
             <lightning-button-icon
                 icon-name="utility:refresh"
                 variant="border-filled"
                 onclick={refreshSuggestions}
                 class="refresh-button"
+                disabled={isLoading}
                 title="Refresh Suggestions">
             </lightning-button-icon>
         </div>
 
-        <template if:true={isLoading}>
-            <div class="spinner-container">
-                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
-            </div>
-        </template>
-
-        <template if:false={isLoading}>
-            <template if:true={error}>
-                <div class="error-message">
-                    <lightning-icon icon-name="utility:error" size="x-small"></lightning-icon>
-                    <span>{error}</span>
+        <div class="relative-container">
+            <template if:true={isLoading}>
+                <div class="local-spinner">
+                    <lightning-spinner alternative-text="Loading" size="small" variant="brand"></lightning-spinner>
                 </div>
             </template>
 
-            <template if:true={suggestions.length}>
-                <div class="suggestions-list">
-                    <template for:each={suggestions} for:item="suggestion" for:index="index">
-                        <div key={suggestion.productId} class="suggestion-card">
-                            <div class="suggestion-content">
-                                <div class="suggestion-title">
-                                    <h3>{suggestion.productName}</h3>
-                                    <div class="suggestion-meta">
-                                        <span class="quantity-badge">
-                                            Recommended Qty: {suggestion.quantity}
-                                        </span>
+            <template if:false={isLoading}>
+                <template if:true={error}>
+                    <div class="error-message">
+                        <lightning-icon icon-name="utility:error" size="x-small"></lightning-icon>
+                        <span>{error}</span>
+                    </div>
+                </template>
+
+                <template if:true={suggestions.length}>
+                    <div class="suggestions-list">
+                        <template for:each={suggestions} for:item="suggestion" for:index="index">
+                            <div key={suggestion.productId} class="suggestion-card">
+                                <div class="product-info">
+                                    <div class="product-image">
+                                        <lightning-icon icon-name="standard:product" size="small"></lightning-icon>
+                                    </div>
+                                    <div class="product-details">
+                                        <div class="product-name">{suggestion.productName}</div>
+                                        <div class="product-meta">
+                                            <span class="ai-badge">
+                                                <lightning-icon icon-name="utility:einstein" size="xx-small"></lightning-icon>
+                                                AI Recommended
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="product-actions">
+                                    <lightning-input
+                                        type="number"
+                                        label="Quantity"
+                                        value={suggestion.quantity}
+                                        data-index={index}
+                                        onchange={handleQuantityChange}
+                                        class="quantity-input"
+                                        variant="label-hidden"
+                                        min="1">
+                                    </lightning-input>
+                                    <lightning-button
+                                        label="Add"
+                                        variant="brand"
+                                        onclick={handleAddToWorkOrder}
+                                        data-index={index}
+                                        class="add-button">
+                                    </lightning-button>
+                                </div>
                             </div>
-                            <div class="suggestion-actions">
-                                <lightning-button-icon
-                                    icon-name="utility:add"
-                                    variant="border-filled"
-                                    onclick={handleAddToWorkOrder}
-                                    data-index={index}
-                                    class="add-button"
-                                    title="Add to Work Order">
-                                </lightning-button-icon>
-                            </div>
-                        </div>
-                    </template>
-                </div>
-            </template>
+                        </template>
+                    </div>
+                </template>
 
-            <template if:false={suggestions.length}>
-                <div class="no-suggestions">
-                    <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
-                    <p>No product suggestions available</p>
-                </div>
+                <template if:false={suggestions.length}>
+                    <div class="no-suggestions">
+                        <lightning-icon icon-name="utility:info" size="small"></lightning-icon>
+                        <p>All recommended products have been added</p>
+                    </div>
+                </template>
             </template>
-        </template>
+        </div>
     </div>
 </template> 

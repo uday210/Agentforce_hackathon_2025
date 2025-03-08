@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_AI_Recommended__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicates if this product was recommended by AI</description>
+    <externalId>false</externalId>
+    <label>AI Recommended</label>
+    <type>Checkbox</type>
+</CustomField> 
