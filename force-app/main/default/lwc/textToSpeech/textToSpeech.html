@@ -1,0 +1,14 @@
+<template>
+    <div class="speaker-container">
+        <template if:true={showSpeaker}>
+            <lightning-button-icon
+                icon-name={speakerIcon}
+                variant="border-filled"
+                size="medium"
+                onclick={handleSpeak}
+                class={speakerButtonClass}
+                title={speakerTitle}>
+            </lightning-button-icon>
+        </template>
+    </div>
+</template> 

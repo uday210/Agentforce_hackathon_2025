@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>WppKPoi6wlSfMD/dZFqI80W5IA/N1ssCZ8g3XR/vigY=_1</activeVersionIdentifier>
+    <developerName>Installation_Questions</developerName>
+    <masterLabel>Installation Questions</masterLabel>
+    <templateVersions>
+        <content>As a senior installation specialist based on the user query give them a shot response by using the given installation details of a product
+
+User query : {!$Input:userQuery}
+
+Product installation guide details :  {!$Input:installationInfo}
+
+stick to the installation info and don&apos;t give anything extra and make sure the response is much relevant to the user query
+</content>
+        <inputs>
+            <apiName>userQuery</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>userQuery</masterLabel>
+            <referenceName>Input:userQuery</referenceName>
+            <required>true</required>
+        </inputs>
+        <inputs>
+            <apiName>installationInfo</apiName>
+            <definition>primitive://String</definition>
+            <masterLabel>installationInfo</masterLabel>
+            <referenceName>Input:installationInfo</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4Turbo</primaryModel>
+        <status>Published</status>
+        <versionIdentifier>WppKPoi6wlSfMD/dZFqI80W5IA/N1ssCZ8g3XR/vigY=_1</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>WppKPoi6wlSfMD/dZFqI80W5IA/N1ssCZ8g3XR/vigY=_1</activeVersionIdentifier>
+    <description>This is used to generate details about product installation of given product</description>
+    <developerName>Product_Installation_Details</developerName>
+    <masterLabel>Product Installation Details</masterLabel>
+    <templateVersions>
+        <content>As a technical expert, analyze the following product details and provide a clear, step-by-step installation guide:
+
+Product Name: {!$Input:SelectedProduct.Name}
+Product Description: {!$Input:SelectedProduct.Description}
+all other details about the product :
+{!$RecordSnapshot:SelectedProduct.Snapshot}
+
+Please provide:
+1. Required tools and materials
+2. Safety precautions
+3. Detailed installation steps
+4. Tips for optimal installation
+5. Common mistakes to avoid
+6. Post-installation checks
+
+don&apos;t give any extra details only focus on installation
+
+</content>
+        <inputs>
+            <apiName>SelectedProduct</apiName>
+            <definition>SOBJECT://Product2</definition>
+            <masterLabel>SelectedProduct</masterLabel>
+            <referenceName>Input:SelectedProduct</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude3Haiku</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:SelectedProduct.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:SelectedProduct</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WppKPoi6wlSfMD/dZFqI80W5IA/N1ssCZ8g3XR/vigY=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>As a technical expert, analyze the following product details and provide a clear, step-by-step installation guide:
+
+Product Name: {!$Input:SelectedProduct.Name}
+Product Description: {!$Input:SelectedProduct.Description}
+all other details about the product :
+{!$RecordSnapshot:SelectedProduct.Snapshot}
+
+Please provide:
+1. Required tools and materials
+2. Safety precautions
+3. Detailed installation steps
+4. Tips for optimal installation
+5. Common mistakes to avoid
+6. Post-installation checks
+
+don&apos;t give any extra details only focus on installation
+
+</content>
+        <inputs>
+            <apiName>SelectedProduct</apiName>
+            <definition>SOBJECT://Product2</definition>
+            <masterLabel>SelectedProduct</masterLabel>
+            <referenceName>Input:SelectedProduct</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude3Haiku</primaryModel>
+        <status>Draft</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:SelectedProduct.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:SelectedProduct</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WppKPoi6wlSfMD/dZFqI80W5IA/N1ssCZ8g3XR/vigY=_2</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>
