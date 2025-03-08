@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionIdentifier>WppKPoi6wlSfMD/dZFqI80W5IA/N1ssCZ8g3XR/vigY=_9</activeVersionIdentifier>
+    <description>This prompt is used to generate product suggestion for a given work Order and case</description>
+    <developerName>Product_suggestion</developerName>
+    <masterLabel>Product suggestion</masterLabel>
+    <templateVersions>
+        <content>Hey, as a product suggestion specialist  look into the below details 
+Case Subject : {!$Input:CurrentWorkOrder.Case.Subject}
+Case Description :  {!$Input:CurrentWorkOrder.Case.Description}
+and complete Case snapshot :
+{!$RecordSnapshot:CurrentWorkOrder.Case.Snapshot}
+and complete WorkOrder snapshot :
+{!$RecordSnapshot:CurrentWorkOrder.Snapshot}
+
+so i want you to suggest some products which are may required to resolve this case by looking these below available products :
+
+
+all ways return only top 3 products like below Format as a string and don&apos;t include any other extra information 
+&apos;&apos;&apos;
+[
+{
+&apos;Product Name&apos;:&apos;leak repair kit&apos;,
+&apos;Quantity&apos;:2,
+&apos;ProductId&apos;:&apos;Id of the product&apos;
+},
+{
+&apos;Product Name&apos;:&apos;leak repair material&apos;,
+&apos;Quantity&apos;:1,
+&apos;ProductId&apos;:&apos;Id of the product&apos;
+}
+]
+&apos;&apos;&apos;
+
+</content>
+        <inputs>
+            <apiName>CurrentWorkOrder</apiName>
+            <definition>SOBJECT://WorkOrder</definition>
+            <masterLabel>CurrentWorkOrder</masterLabel>
+            <referenceName>Input:CurrentWorkOrder</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude3Haiku</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:CurrentWorkOrder.Case.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:CurrentWorkOrder.Case</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:CurrentWorkOrder.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:CurrentWorkOrder</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WppKPoi6wlSfMD/dZFqI80W5IA/N1ssCZ8g3XR/vigY=_1</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Hey, as a product suggestion specialist  look into the below details 
+Case Subject : {!$Input:CurrentWorkOrder.Case.Subject}
+Case Description :  {!$Input:CurrentWorkOrder.Case.Description}
+and complete Case snapshot :
+{!$RecordSnapshot:CurrentWorkOrder.Case.Snapshot}
+and complete WorkOrder snapshot :
+{!$RecordSnapshot:CurrentWorkOrder.Snapshot}
+
+so i want you to suggest some products which are may required to resolve this case by looking these below available products :
+{!$Flow:Add_Product_Details_To_Prompt.Prompt}
+
+all ways return only top 3 products like below Format as a string and don&apos;t include any other extra information 
+&apos;&apos;&apos;
+[
+{
+&apos;Product Name&apos;:&apos;leak repair kit&apos;,
+&apos;Quantity&apos;:2,
+&apos;ProductId&apos;:&apos;Id of the product&apos;
+},
+{
+&apos;Product Name&apos;:&apos;leak repair material&apos;,
+&apos;Quantity&apos;:1,
+&apos;ProductId&apos;:&apos;Id of the product&apos;
+}
+]
+&apos;&apos;&apos;
+
+</content>
+        <inputs>
+            <apiName>CurrentWorkOrder</apiName>
+            <definition>SOBJECT://WorkOrder</definition>
+            <masterLabel>CurrentWorkOrder</masterLabel>
+            <referenceName>Input:CurrentWorkOrder</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude3Haiku</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Add_Product_Details_To_Prompt</definition>
+            <referenceName>Flow:Add_Product_Details_To_Prompt</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:CurrentWorkOrder.Case.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:CurrentWorkOrder.Case</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:CurrentWorkOrder.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:CurrentWorkOrder</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WppKPoi6wlSfMD/dZFqI80W5IA/N1ssCZ8g3XR/vigY=_2</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Hey, as a product suggestion specialist  look into the below details 
+Case Subject : {!$Input:CurrentWorkOrder.Case.Subject}
+Case Description :  {!$Input:CurrentWorkOrder.Case.Description}
+and complete Case snapshot :
+{!$RecordSnapshot:CurrentWorkOrder.Case.Snapshot}
+and complete WorkOrder snapshot :
+{!$RecordSnapshot:CurrentWorkOrder.Snapshot}
+
+so i want you to suggest some products which are may required to resolve this case by looking these below available products :
+{!$Flow:Add_Product_Details_To_Prompt.Prompt}
+
+all ways return only top 5 products like below Format as a string and don&apos;t include any other extra information 
+&apos;&apos;&apos;
+[
+{
+&apos;Product Name&apos;:&apos;leak repair kit&apos;,
+&apos;Quantity&apos;:2,
+&apos;ProductId&apos;:&apos;Id of the product&apos;
+},
+{
+&apos;Product Name&apos;:&apos;leak repair material&apos;,
+&apos;Quantity&apos;:1,
+&apos;ProductId&apos;:&apos;Id of the product&apos;
+}
+]
+&apos;&apos;&apos;
+
+</content>
+        <inputs>
+            <apiName>CurrentWorkOrder</apiName>
+            <definition>SOBJECT://WorkOrder</definition>
+            <masterLabel>CurrentWorkOrder</masterLabel>
+            <referenceName>Input:CurrentWorkOrder</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude3Haiku</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Add_Product_Details_To_Prompt</definition>
+            <referenceName>Flow:Add_Product_Details_To_Prompt</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:CurrentWorkOrder.Case.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:CurrentWorkOrder.Case</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:CurrentWorkOrder.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:CurrentWorkOrder</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WppKPoi6wlSfMD/dZFqI80W5IA/N1ssCZ8g3XR/vigY=_3</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Hey, as a product suggestion specialist  look into the below details 
+Case Subject : {!$Input:CurrentWorkOrder.Case.Subject}
+Case Description :  {!$Input:CurrentWorkOrder.Case.Description}
+and complete Case snapshot :
+{!$RecordSnapshot:CurrentWorkOrder.Case.Snapshot}
+and complete WorkOrder snapshot :
+{!$RecordSnapshot:CurrentWorkOrder.Snapshot}
+
+so i want you to suggest some products which are may required to resolve this case by looking these below available products :
+{!$Flow:Add_Product_Details_To_Prompt.Prompt}
+
+all ways return only top 3 products like below Format as a string and don&apos;t include any other extra information 
+&apos;&apos;&apos;
+[
+{
+&apos;Product Name&apos;:&apos;leak repair kit&apos;,
+&apos;Quantity&apos;:2,
+&apos;ProductId&apos;:&apos;Id of the product&apos;
+},
+{
+&apos;Product Name&apos;:&apos;leak repair material&apos;,
+&apos;Quantity&apos;:1,
+&apos;ProductId&apos;:&apos;Id of the product&apos;
+}
+]
+&apos;&apos;&apos;
+
+</content>
+        <inputs>
+            <apiName>CurrentWorkOrder</apiName>
+            <definition>SOBJECT://WorkOrder</definition>
+            <masterLabel>CurrentWorkOrder</masterLabel>
+            <referenceName>Input:CurrentWorkOrder</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude3Haiku</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Add_Product_Details_To_Prompt</definition>
+            <referenceName>Flow:Add_Product_Details_To_Prompt</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:CurrentWorkOrder.Case.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:CurrentWorkOrder.Case</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:CurrentWorkOrder.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:CurrentWorkOrder</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WppKPoi6wlSfMD/dZFqI80W5IA/N1ssCZ8g3XR/vigY=_4</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Hey, as a product suggestion specialist  look into the below details 
+Case Subject : {!$Input:CurrentWorkOrder.Case.Subject}
+Case Description :  {!$Input:CurrentWorkOrder.Case.Description}
+and complete Case snapshot :
+{!$RecordSnapshot:CurrentWorkOrder.Case.Snapshot}
+and complete WorkOrder snapshot :
+{!$RecordSnapshot:CurrentWorkOrder.Snapshot}
+
+so i want you to suggest some products which are may required to resolve this case by looking these below available products :
+{!$Flow:Add_Product_Details_To_Prompt.Prompt}
+
+all ways return only top 3 products like below Format as a string and don&apos;t include any other extra information or extra words just below format only
+Out Put Format :
+&apos;&apos;&apos;
+[
+{
+&apos;Product Name&apos;:&apos;leak repair kit&apos;,
+&apos;Quantity&apos;:2,
+&apos;ProductId&apos;:&apos;Id of the product&apos;
+},
+{
+&apos;Product Name&apos;:&apos;leak repair material&apos;,
+&apos;Quantity&apos;:1,
+&apos;ProductId&apos;:&apos;Id of the product&apos;
+}
+]
+&apos;&apos;&apos;
+
+</content>
+        <inputs>
+            <apiName>CurrentWorkOrder</apiName>
+            <definition>SOBJECT://WorkOrder</definition>
+            <masterLabel>CurrentWorkOrder</masterLabel>
+            <referenceName>Input:CurrentWorkOrder</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultBedrockAnthropicClaude3Haiku</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Add_Product_Details_To_Prompt</definition>
+            <referenceName>Flow:Add_Product_Details_To_Prompt</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:CurrentWorkOrder.Case.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:CurrentWorkOrder.Case</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:CurrentWorkOrder.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:CurrentWorkOrder</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WppKPoi6wlSfMD/dZFqI80W5IA/N1ssCZ8g3XR/vigY=_5</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Hey, as a product suggestion specialist  look into the below details 
+Case Subject : {!$Input:CurrentWorkOrder.Case.Subject}
+Case Description :  {!$Input:CurrentWorkOrder.Case.Description}
+and complete Case snapshot :
+{!$RecordSnapshot:CurrentWorkOrder.Case.Snapshot}
+and complete WorkOrder snapshot :
+{!$RecordSnapshot:CurrentWorkOrder.Snapshot}
+
+so i want you to suggest some products which are may required to resolve this case by looking these below available products :
+{!$Flow:Add_Product_Details_To_Prompt.Prompt}
+
+all ways return only top 3 products like below Format as a string and don&apos;t include any other extra information or extra words just below format only
+Out Put Format :
+&apos;&apos;&apos;
+[
+{
+&apos;Product Name&apos;:&apos;leak repair kit&apos;,
+&apos;Quantity&apos;:2,
+&apos;ProductId&apos;:&apos;Id of the product&apos;
+},
+{
+&apos;Product Name&apos;:&apos;leak repair material&apos;,
+&apos;Quantity&apos;:1,
+&apos;ProductId&apos;:&apos;Id of the product&apos;
+}
+]
+&apos;&apos;&apos;
+
+</content>
+        <inputs>
+            <apiName>CurrentWorkOrder</apiName>
+            <definition>SOBJECT://WorkOrder</definition>
+            <masterLabel>CurrentWorkOrder</masterLabel>
+            <referenceName>Input:CurrentWorkOrder</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT35Turbo</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Add_Product_Details_To_Prompt</definition>
+            <referenceName>Flow:Add_Product_Details_To_Prompt</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:CurrentWorkOrder.Case.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:CurrentWorkOrder.Case</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:CurrentWorkOrder.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:CurrentWorkOrder</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WppKPoi6wlSfMD/dZFqI80W5IA/N1ssCZ8g3XR/vigY=_6</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Hey, as a product suggestion specialist  look into the below details 
+Case Subject : {!$Input:CurrentWorkOrder.Case.Subject}
+Case Description :  {!$Input:CurrentWorkOrder.Case.Description}
+and complete Case snapshot :
+{!$RecordSnapshot:CurrentWorkOrder.Case.Snapshot}
+and complete WorkOrder snapshot :
+{!$RecordSnapshot:CurrentWorkOrder.Snapshot}
+
+so i want you to suggest some products which are may required to resolve this case by looking these below available products :
+{!$Flow:Add_Product_Details_To_Prompt.Prompt}
+Instructions :
+&apos;&apos;&apos;
+all ways return only top 3 products like below JSON Format , don&apos;t include any other extra information or extra words just below JSON format only
+&apos;&apos;&apos;
+OutPut Format :
+&apos;&apos;&apos;
+[
+{
+&apos;Product Name&apos;:&apos;leak repair kit&apos;,
+&apos;Quantity&apos;:2,
+&apos;ProductId&apos;:&apos;Id of the product&apos;
+},
+{
+&apos;Product Name&apos;:&apos;leak repair material&apos;,
+&apos;Quantity&apos;:1,
+&apos;ProductId&apos;:&apos;Id of the product&apos;
+}
+]
+&apos;&apos;&apos;
+
+</content>
+        <inputs>
+            <apiName>CurrentWorkOrder</apiName>
+            <definition>SOBJECT://WorkOrder</definition>
+            <masterLabel>CurrentWorkOrder</masterLabel>
+            <referenceName>Input:CurrentWorkOrder</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Add_Product_Details_To_Prompt</definition>
+            <referenceName>Flow:Add_Product_Details_To_Prompt</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:CurrentWorkOrder.Case.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:CurrentWorkOrder.Case</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:CurrentWorkOrder.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:CurrentWorkOrder</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WppKPoi6wlSfMD/dZFqI80W5IA/N1ssCZ8g3XR/vigY=_7</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Hey, as a product suggestion specialist  look into the below details 
+Case Subject : {!$Input:CurrentWorkOrder.Case.Subject}
+Case Description :  {!$Input:CurrentWorkOrder.Case.Description}
+and complete Case snapshot :
+{!$RecordSnapshot:CurrentWorkOrder.Case.Snapshot}
+and complete WorkOrder snapshot :
+{!$RecordSnapshot:CurrentWorkOrder.Snapshot}
+
+so i want you to suggest some products which are may required to resolve this case by looking these below available products  information:
+{!$Flow:Add_Product_Details_To_Prompt.Prompt}
+
+Instructions :
+&apos;&apos;&apos;
+all ways return only top 3 products like below JSON Format , don&apos;t include any other extra information or extra words just below JSON format only,
+and look for only products part of above products information 
+&apos;&apos;&apos;
+OutPut Format :
+&apos;&apos;&apos;
+[
+{
+&apos;Product Name&apos;:&apos;leak repair kit&apos;,
+&apos;Quantity&apos;:2,
+&apos;ProductId&apos;:&apos;Id of the product&apos;
+},
+{
+&apos;Product Name&apos;:&apos;leak repair material&apos;,
+&apos;Quantity&apos;:1,
+&apos;ProductId&apos;:&apos;Id of the product&apos;
+}
+]
+&apos;&apos;&apos;
+
+</content>
+        <inputs>
+            <apiName>CurrentWorkOrder</apiName>
+            <definition>SOBJECT://WorkOrder</definition>
+            <masterLabel>CurrentWorkOrder</masterLabel>
+            <referenceName>Input:CurrentWorkOrder</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://Add_Product_Details_To_Prompt</definition>
+            <referenceName>Flow:Add_Product_Details_To_Prompt</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:CurrentWorkOrder.Case.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:CurrentWorkOrder.Case</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:CurrentWorkOrder.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:CurrentWorkOrder</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WppKPoi6wlSfMD/dZFqI80W5IA/N1ssCZ8g3XR/vigY=_8</versionIdentifier>
+    </templateVersions>
+    <templateVersions>
+        <content>Hey, as a product suggestion specialist  look into the below details 
+Case Subject : {!$Input:CurrentWorkOrder.Case.Subject}
+Case Description :  {!$Input:CurrentWorkOrder.Case.Description}
+and complete Case snapshot :
+{!$RecordSnapshot:CurrentWorkOrder.Case.Snapshot}
+and complete WorkOrder snapshot :
+{!$RecordSnapshot:CurrentWorkOrder.Snapshot}
+
+so i want you to suggest some products which are may required to resolve this case by looking these below available products  information:
+{!$Flow:All_Service_Products_Flow.Prompt}
+Instructions :
+&apos;&apos;&apos;
+all ways return only top 3 products like below JSON Format , don&apos;t include any other extra information or extra words just below JSON format only,
+and look for only products part of above products information 
+&apos;&apos;&apos;
+OutPut Format :
+&apos;&apos;&apos;
+[
+{
+&apos;Product Name&apos;:&apos;leak repair kit&apos;,
+&apos;Quantity&apos;:2,
+&apos;ProductId&apos;:&apos;Id of the product&apos;
+},
+{
+&apos;Product Name&apos;:&apos;leak repair material&apos;,
+&apos;Quantity&apos;:1,
+&apos;ProductId&apos;:&apos;Id of the product&apos;
+}
+]
+&apos;&apos;&apos;
+
+</content>
+        <inputs>
+            <apiName>CurrentWorkOrder</apiName>
+            <definition>SOBJECT://WorkOrder</definition>
+            <masterLabel>CurrentWorkOrder</masterLabel>
+            <referenceName>Input:CurrentWorkOrder</referenceName>
+            <required>true</required>
+        </inputs>
+        <primaryModel>sfdc_ai__DefaultOpenAIGPT4</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>flow://All_Service_Products_Flow</definition>
+            <referenceName>Flow:All_Service_Products_Flow</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:CurrentWorkOrder.Case.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:CurrentWorkOrder.Case</referenceName>
+        </templateDataProviders>
+        <templateDataProviders>
+            <definition>invocable://getDataForGrounding</definition>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>recordId</parameterName>
+                <valueExpression>{!$Input:CurrentWorkOrder.Id}</valueExpression>
+            </parameters>
+            <referenceName>RecordSnapshot:CurrentWorkOrder</referenceName>
+        </templateDataProviders>
+        <versionIdentifier>WppKPoi6wlSfMD/dZFqI80W5IA/N1ssCZ8g3XR/vigY=_9</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

@@ -49,6 +49,13 @@ export default class ProductCatalog extends LightningElement {
             }))
         };
     }
+
+   handleSpeak(){
+    if (!this.installationInfo) return;
+        var msg = new SpeechSynthesisUtterance();
+        msg.text = this.installationInfo;
+        window.speechSynthesis.speak(msg);
+   }
     
     handleQuantityChange(event) {
         const productId = event.target.dataset.id;
@@ -523,4 +530,4 @@ export default class ProductCatalog extends LightningElement {
             });
         }
     }
-} 
+}

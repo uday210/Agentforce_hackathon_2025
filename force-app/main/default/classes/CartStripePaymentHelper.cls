@@ -2,6 +2,7 @@ public with sharing class CartStripePaymentHelper {
     private static final String STRIPE_SECRET_KEY = 'sk_test_6ujXk2Ie32MNhcZynCVEgwQ400BjiXNttS';
     private static final String STRIPE_API_URL = 'https://api.stripe.com/v1/';
     
+    @AuraEnabled
     public static String generatePaymentLink(Id cartId) {
         Cart__c cart = [
             SELECT Id, Total_Amount__c, 
@@ -51,4 +52,4 @@ public with sharing class CartStripePaymentHelper {
     }
     
     public class CartStripeException extends Exception {}
-} 
+}

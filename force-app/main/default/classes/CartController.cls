@@ -48,4 +48,4 @@ public with sharing class CartController {
             throw new AuraHandledException(e.getMessage());
         }
     }
-} 
+}
