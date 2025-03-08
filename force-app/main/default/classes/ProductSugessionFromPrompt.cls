@@ -10,7 +10,9 @@ public without sharing class ProductSugessionFromPrompt {
        
        inputParams.put('Input:CurrentWorkOrder',workOrderValue);
        system.debug('inputParams >> '+inputParams);
-       return generateResponseFromPromptTemplate('0hfgK000000MggXQAS',inputParams);
+       String promptTemplateId = [select id,developerName,Prompt_id__c from Prompt_Templates__mdt WHERE developerName='Product_suggestion' LIMIT 1].Prompt_id__c;
+       //0hfgK000000MggXQAS
+       return generateResponseFromPromptTemplate(promptTemplateId,inputParams);
    }
    public static String generateResponseFromPromptTemplate(
         String promptTemplateDeveloperName,
