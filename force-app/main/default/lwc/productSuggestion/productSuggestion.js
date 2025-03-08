@@ -2,12 +2,15 @@ import { LightningElement, api, track, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import invokePrompt from '@salesforce/apex/ProductSugessionFromPrompt.invokePrompt';
 import createWorkOrderItem from '@salesforce/apex/WorkOrderItemController.createWorkOrderItem';
+import { getRecordNotifyChange } from 'lightning/uiRecordApi';
+import getExistingProductIds from '@salesforce/apex/WorkOrderItemController.getExistingProductIds';
 
 export default class ProductSuggestion extends LightningElement {
     @api recordId;
     @track suggestions = [];
     @track isLoading = false;
     @track error;
+    @track existingProductIds = [];
 
     connectedCallback() {
         this.refreshSuggestions();
@@ -21,6 +24,9 @@ export default class ProductSuggestion extends LightningElement {
         this.error = null;
 
         try {
+            // First, get existing product IDs
+            this.existingProductIds = await getExistingProductIds({ workOrderId: this.recordId });
+            
             const result = await invokePrompt({ workOrderId: this.recordId });
             console.log('Raw response from prompt:', result);
 
@@ -67,11 +73,14 @@ export default class ProductSuggestion extends LightningElement {
                 throw new Error('Invalid product suggestions format');
             }
 
-            this.suggestions = parsedData.map(item => ({
-                productName: item['Product Name'],
-                quantity: item.Quantity,
-                productId: item.ProductId,
-            }));
+            // Filter out products that are already in the Work Order
+            this.suggestions = parsedData
+                .filter(item => !this.existingProductIds.includes(item.ProductId))
+                .map(item => ({
+                    productName: item['Product Name'],
+                    quantity: item.Quantity,
+                    productId: item.ProductId,
+                }));
 
             console.log('Processed suggestions:', this.suggestions);
 
@@ -97,12 +106,18 @@ export default class ProductSuggestion extends LightningElement {
             
             // Remove the added suggestion from the list
             this.suggestions = this.suggestions.filter((_, i) => i !== index);
+            // Add to existing products list
+            this.existingProductIds.push(suggestion.productId);
             
             this.showToast(
                 'Success',
                 `Added ${suggestion.productName} to work order`,
                 'success'
             );
+
+            // Notify Lightning Data Service to refresh the Work Order record
+            getRecordNotifyChange([{recordId: this.recordId}]);
+
         } catch (error) {
             console.error('Error adding to work order:', error);
             this.showToast(
@@ -121,5 +136,22 @@ export default class ProductSuggestion extends LightningElement {
                 variant
             })
         );
+    }
+
+    handleQuantityChange(event) {
+        const index = event.target.dataset.index;
+        const newQuantity = parseInt(event.target.value, 10);
+        
+        if (newQuantity > 0) {
+            this.suggestions = this.suggestions.map((item, i) => {
+                if (i === parseInt(index)) {
+                    return {
+                        ...item,
+                        quantity: newQuantity
+                    };
+                }
+                return item;
+            });
+        }
     }
 } 

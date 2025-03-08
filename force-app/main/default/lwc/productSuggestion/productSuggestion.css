@@ -1,48 +1,33 @@
 .suggestion-container {
     background: white;
     border-radius: 8px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     border: 1px solid #e5e7eb;
-    max-width: 600px;
-    margin: 0 auto;
+    position: relative;
+    isolation: isolate;
 }
 
 .suggestion-header {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
     justify-content: space-between;
-    border-bottom: 2px solid #f0f7ff;
-    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #f0f7ff;
 }
 
-.header-content {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-}
-
-.suggestion-header h2 {
-    font-size: 1.1rem;
-    color: #2c3e50;
-    margin: 0;
-    font-weight: 600;
+.header-left {
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
-.work-order-subtitle {
-    font-size: 0.8rem;
-    color: #64748b;
+.suggestion-header h2 {
+    font-size: 1rem;
+    color: #1f2937;
     margin: 0;
-}
-
-.refresh-button {
-    --sds-c-icon-color-foreground: #3b82f6;
-    --sds-c-icon-color-foreground-default: #3b82f6;
+    font-weight: 600;
 }
 
 .suggestions-list {
@@ -55,71 +40,109 @@
     background: #f8fafc;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
-    overflow: hidden;
-    transition: all 0.2s ease;
-    margin-bottom: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    transition: all 0.2s ease;
 }
 
 .suggestion-card:hover {
+    background: white;
     border-color: #3b82f6;
     box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
-    transform: translateY(-2px);
 }
 
-.suggestion-content {
+.product-info {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    align-items: center;
+    gap: 1rem;
     flex: 1;
+    min-width: 0;
 }
 
-.suggestion-title {
+.product-image {
+    background: linear-gradient(135deg, #f0f7ff 0%, #e6f0fd 100%);
+    padding: 0.75rem;
+    border-radius: 6px;
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
-.suggestion-title h3 {
-    font-size: 0.9rem;
-    margin: 0;
-    color: #1f2937;
+.product-details {
+    min-width: 0;
+}
+
+.product-name {
     font-weight: 600;
+    color: #1f2937;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
 }
 
-.suggestion-meta {
+.product-meta {
     display: flex;
+    align-items: center;
     gap: 0.5rem;
 }
 
-.quantity-badge {
-    font-size: 0.875rem;
-    color: #3b82f6;
-    font-weight: 500;
-    background: #e5e7eb;
+.ai-badge {
+    font-size: 0.75rem;
+    color: #0176d3;
+    background: #f0f7ff;
     padding: 0.25rem 0.75rem;
     border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
 }
 
-.suggestion-actions {
+.product-actions {
     display: flex;
-    gap: 0.5rem;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.quantity-input {
+    width: 5rem;
 }
 
 .add-button {
-    --sds-c-icon-color-foreground: #3b82f6;
-    --sds-c-icon-color-foreground-default: #3b82f6;
-    --sds-c-button-color-border: #3b82f6;
+    --sds-c-button-brand-color-background: #3b82f6;
+    --sds-c-button-brand-color-border: #3b82f6;
 }
 
 .add-button:hover {
-    --sds-c-icon-color-foreground: #2563eb;
-    --sds-c-icon-color-foreground-default: #2563eb;
-    --sds-c-button-color-border: #2563eb;
+    --sds-c-button-brand-color-background: #2563eb;
+    --sds-c-button-brand-color-border: #2563eb;
+}
+
+.relative-container {
+    position: relative;
+    min-height: 100px;
+    overflow: hidden;
+}
+
+.local-spinner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    z-index: 1;
+}
+
+.local-spinner lightning-spinner {
+    position: relative;
+    display: inline-block;
 }
 
 .error-message {
@@ -140,17 +163,6 @@
     padding: 1rem;
     background: #f8fafc;
     border-radius: 6px;
-    color: #64748b;
-}
-
-.spinner-container {
-    padding: 2rem;
-    display: flex;
-    justify-content: center;
-}
-
-.action-description {
-    margin-bottom: 1rem;
     color: #64748b;
     font-size: 0.875rem;
 } 

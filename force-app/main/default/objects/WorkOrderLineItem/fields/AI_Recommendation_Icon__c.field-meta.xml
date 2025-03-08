@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AI_Recommendation_Icon__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(Is_AI_Recommended__c, IMAGE("/img/icon/t4v35/utility/einstein_60.png", "AI Recommended", 16, 16), "")</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>AI Recommendation</label>
+    <required>false</required>
+    <type>Text</type>
+</CustomField> 
