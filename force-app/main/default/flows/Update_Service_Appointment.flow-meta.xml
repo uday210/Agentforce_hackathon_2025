@@ -125,7 +125,7 @@
             </value>
         </filters>
         <inputAssignments>
-            <field>Comments</field>
+            <field>Description</field>
             <value>
                 <stringValue>This SA date/time updated by agent as requested by user</stringValue>
             </value>

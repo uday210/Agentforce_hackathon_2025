@@ -70,7 +70,7 @@
             </value>
         </filters>
         <inputAssignments>
-            <field>Comments</field>
+            <field>Description</field>
             <value>
                 <stringValue>This Service appointment requested for cancellation by user from agent force agent</stringValue>
             </value>

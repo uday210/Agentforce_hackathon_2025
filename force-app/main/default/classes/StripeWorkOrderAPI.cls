@@ -3,7 +3,7 @@ global without sharing class StripeWorkOrderAPI {
 
     @HttpGet
     global static string performGet(){
-        return ProductsList.getProductsListAsString()[0];
+        return '';
     }
 
     @HttpPost
